@@ -1,5 +1,6 @@
 add_executable(tapedeck_tests
     test_core.cpp
+    test_decoder.cpp
 )
 target_link_libraries(tapedeck_tests PRIVATE tapedeck::tapedeck GTest::gtest_main)
 tapedeck_set_warnings(tapedeck_tests)
