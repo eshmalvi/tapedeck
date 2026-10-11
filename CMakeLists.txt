@@ -43,6 +43,8 @@ target_link_libraries(tapedeck PUBLIC ZLIB::ZLIB)
 tapedeck_set_warnings(tapedeck)
 tapedeck_set_sanitizer(tapedeck)
 
+add_subdirectory(apps)
+
 if(TAPEDECK_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
