@@ -4,6 +4,7 @@ add_executable(tapedeck_tests
     test_frame_stream.cpp
     test_order_book.cpp
     test_signals.cpp
+    test_replay.cpp
 )
 target_link_libraries(tapedeck_tests PRIVATE tapedeck::tapedeck GTest::gtest_main)
 tapedeck_set_warnings(tapedeck_tests)
