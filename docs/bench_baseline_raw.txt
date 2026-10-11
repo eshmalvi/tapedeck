@@ -1,0 +1,22 @@
+Unable to determine clock rate from sysctl: hw.cpufrequency: No such file or directory
+This does not affect benchmark measurements, only the metadata output.
+2026-10-11T20:17:11+05:30
+Running ./build/bench/tapedeck_bench
+-------------------------------------------------------------------------------------------------------
+Benchmark                           Time             CPU   Iterations bytes_per_second items_per_second
+-------------------------------------------------------------------------------------------------------
+BM_DecodeOnly                    1.45 ms         1.45 ms          480      3.89194Gi/s       137.617M/s
+--------------------------------------------------------------------------------------
+Benchmark                           Time             CPU   Iterations items_per_second
+--------------------------------------------------------------------------------------
+BM_DecodeAndBook                 12.7 ms         12.7 ms           55       15.7721M/s
+BM_OrderBookAddDelete/10         54.2 ns         54.1 ns     12934220       36.9403M/s
+BM_OrderBookAddDelete/100        63.6 ns         63.5 ns      9787609         31.52M/s
+BM_OrderBookAddDelete/1000       91.3 ns         91.3 ns      7050837       21.8956M/s
+---------------------------------------------------------------------
+Benchmark                           Time             CPU   Iterations
+---------------------------------------------------------------------
+BM_OrderBookExecuteAtTouch       17.3 ns         17.3 ns     40158569
+BM_RollingStats                  2.15 ns         2.15 ns    327663200
+BM_RollingMedian/100              151 ns          151 ns      4629752
+BM_RollingMedian/1000             176 ns          176 ns      3716051
