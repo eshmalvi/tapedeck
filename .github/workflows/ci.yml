@@ -1,0 +1,54 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    name: ${{ matrix.os }} / ${{ matrix.sanitize == '' && 'release' || matrix.sanitize }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-14]
+        sanitize: ['', 'address,undefined']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ninja-build zlib1g-dev
+
+      - name: Install tools (macOS)
+        if: runner.os == 'macOS'
+        run: brew install ninja
+
+      - name: Configure
+        run: >
+          cmake -S . -B build -G Ninja
+          -DCMAKE_BUILD_TYPE=${{ matrix.sanitize == '' && 'Release' || 'RelWithDebInfo' }}
+          -DTAPEDECK_SANITIZE=${{ matrix.sanitize }}
+          -DTAPEDECK_BUILD_TUI=${{ matrix.sanitize == '' && 'ON' || 'OFF' }}
+          -DTAPEDECK_BUILD_BENCH=${{ matrix.sanitize == '' && 'ON' || 'OFF' }}
+
+      - name: Build
+        run: cmake --build build -j
+
+      - name: Test
+        run: ./build/tests/tapedeck_tests
+
+      - name: Smoke-test benchmarks
+        if: matrix.sanitize == ''
+        run: ./build/bench/tapedeck_bench --benchmark_min_time=0.01s
+
+  format:
+    name: clang-format
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check formatting
+        run: |
+          sudo apt-get update && sudo apt-get install -y clang-format
+          find include src apps tests bench -name '*.hpp' -o -name '*.cpp' | xargs clang-format --dry-run --Werror
