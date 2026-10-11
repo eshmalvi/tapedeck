@@ -24,3 +24,20 @@ include(cmake/Sanitizers.cmake)
 include(cmake/Dependencies.cmake)
 
 find_package(ZLIB REQUIRED)
+
+# ---------------------------------------------------------------------------
+# Core library: decoder, order book, signals, replay engine.
+# ---------------------------------------------------------------------------
+add_library(tapedeck STATIC
+    src/core/format.cpp
+)
+add_library(tapedeck::tapedeck ALIAS tapedeck)
+target_include_directories(tapedeck PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(tapedeck PUBLIC ZLIB::ZLIB)
+tapedeck_set_warnings(tapedeck)
+tapedeck_set_sanitizer(tapedeck)
+
+if(TAPEDECK_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
