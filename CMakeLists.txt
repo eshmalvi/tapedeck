@@ -32,6 +32,8 @@ add_library(tapedeck STATIC
     src/core/format.cpp
     src/itch/source.cpp
     src/itch/frame_stream.cpp
+    src/book/order_book.cpp
+    src/book/book_manager.cpp
 )
 add_library(tapedeck::tapedeck ALIAS tapedeck)
 target_include_directories(tapedeck PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
