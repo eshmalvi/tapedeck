@@ -1,0 +1,19 @@
+# Build output
+build/
+build-*/
+cmake-build-*/
+compile_commands.json
+.cache/
+
+# Market data is Nasdaq's property and far too large for git. Keep only the notes.
+data/*
+!data/README.md
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Logs
+*.log
